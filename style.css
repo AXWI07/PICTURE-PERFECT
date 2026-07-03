@@ -301,4 +301,30 @@ body.nav-open {
   .hero__tagline {
     font-size: 1rem;
   }
+
+  .img-categories {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 5rem;
+    padding: 8rem;
+  
+  }
+    
+.sport {
+    grid-column: span 2 / span 2;
+    grid-row: span 5 / span 5;
+}
+
+.fashion {
+    grid-column: span 2 / span 2;
+    grid-row: span 5 / span 5;
+    grid-column-start: 4;
+}
+
+.lifestyle {
+    grid-column: span 2 / span 2;
+    grid-row: span 5 / span 5;
+    grid-column-start: 7;
+}
 }
