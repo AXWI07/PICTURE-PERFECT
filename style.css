@@ -437,7 +437,7 @@ body.nav-open {
 }
 
 .footer__bottom-bar a {
-  text-decoration: underline;
+  
   text-underline-offset: 3px;
   transition: color 0.2s ease;
 }
