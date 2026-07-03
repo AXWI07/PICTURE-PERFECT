@@ -1,0 +1,304 @@
+/* ==========================================================
+   PICTURE PERFECT FOTOGRAFIE — Hero + Navbar
+   Mobile-first: base styles = phone, media queries scale up.
+   ========================================================== */
+
+/* ---------- Reset & base ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-bg: #0a0a0a;
+  --color-text: #ffffff;
+  --color-text-muted: #b5b5b5;
+  --color-accent: #ffffff;
+  --font-display: 'Anton', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --header-height: 72px;
+  --side-padding: 1.25rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ==========================================================
+   HEADER / NAVBAR (static, sits on top of the hero)
+   ========================================================== */
+.site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--side-padding);
+  
+}
+
+
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  z-index: 110; /* stays above the fullscreen menu */
+}
+
+/* ---------- Hamburger (visible on mobile & tablet) ---------- */
+.hamburger {
+  border: none;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  padding: 8px;
+  cursor: pointer;
+  z-index: 110; /* stays above the fullscreen menu */
+}
+
+.hamburger__line {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-text);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hamburger -> X when menu is open (class toggled by style.js) */
+.hamburger.is-open .hamburger__line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.is-open .hamburger__line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.is-open .hamburger__line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* ---------- Fullscreen nav (mobile & tablet) ---------- */
+.nav {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  
+
+  /* hidden by default */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.nav.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* No page scroll behind the fullscreen menu */
+body.nav-open {
+  overflow: hidden;
+}
+
+.nav__list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  text-align: center;
+}
+
+.nav__link {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 0.06em;
+  transition: color 0.1s ease;
+}
+
+.nav__link:hover {
+  color: var(--color-text-muted);
+}
+
+/* ---------- CTA button ---------- */
+.cta {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  padding: 0.9rem 2rem;
+  border: 2px solid var(--color-accent);
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.cta:hover {
+  background-color: transparent;
+  color: var(--color-accent);
+}
+
+/* ==========================================================
+   HERO
+   ========================================================== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh; /* better on mobile browsers */
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background-color: var(--color-bg);
+}
+
+/* --- Image ---
+   The image fills the whole hero and crops automatically.
+   Just drop any large photo in images/hero.jpg and it fits. */
+.hero__image-wrapper {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.hero__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top; /* keeps the face in view */
+  filter: grayscale(100%);
+}
+
+/* Dark gradient so the white text stays readable */
+.hero__image-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(10, 10, 10, 0.85) 0%, rgba(10, 10, 10, 0.3) 60%, rgba(10, 10, 10, 0.1) 100%),
+    linear-gradient(to top, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0) 45%);
+}
+
+/* --- Text content --- */
+.hero__content {
+  position: relative;
+  z-index: 2;
+  padding: calc(var(--header-height) + 1rem) var(--side-padding) 2.5rem;
+  width: 100%;
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: 400; /* Anton only has one weight */
+  /* Scales fluidly between phone and desktop */
+  font-size: clamp(3.25rem, 11vw, 8.5rem);
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+
+.hero__tagline {
+  margin-top: 2rem;
+  max-width: 34ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================
+   TABLET (≥ 600px) — still hamburger + fullscreen menu
+   ========================================================== */
+@media (min-width: 600px) {
+  :root {
+    --side-padding: 2.5rem;
+  }
+
+  .nav__link {
+    font-size: 2.5rem;
+  }
+}
+
+/* ==========================================================
+   DESKTOP (≥ 1024px) — inline navbar, no hamburger
+   ========================================================== */
+@media (min-width: 1024px) {
+  :root {
+    --header-height: 96px;
+    --side-padding: 4rem;
+  }
+
+  .hamburger {
+    display: none;
+  }
+
+  /* Nav becomes a normal horizontal bar */
+  .nav {
+    position: static;
+    flex-direction: row;
+    gap: 2.5rem;
+    background-color: transparent;
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav__list {
+    flex-direction: row;
+    gap: 2.5rem;
+  }
+
+  .nav__link {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.12em;
+  }
+
+  .cta {
+    font-size: 0.85rem;
+    padding: 0.75rem 1.75rem;
+  }
+
+  .hero__content {
+    padding-bottom: 4rem;
+  }
+
+  .hero__tagline {
+    font-size: 1rem;
+  }
+}
