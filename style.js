@@ -80,5 +80,8 @@ if (trouwTitle && trouwSection) {
   }
 
   window.addEventListener('scroll', maybeStart, { passive: true });
-  maybeStart(); // in case the section is already in view on load
+  // Also check on a timer: catches browsers/webviews where scroll
+  // events are throttled, and the section being in view on page load
+  const viewWatcher = setInterval(maybeStart, 250);
+  maybeStart();
 }
