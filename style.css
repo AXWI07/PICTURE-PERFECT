@@ -350,6 +350,23 @@ body.nav-open {
   line-height: 1.15;
 }
 
+/* Blinking cursor while the title is typing (class set by style.js) */
+.trouw__title.is-typing::after {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 0.6em;
+  margin-left: 0.08em;
+  background-color: var(--color-text);
+  animation: cursor-blink 0.8s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
 /* Elegant outline button */
 .trouw__btn {
   margin-top: 1rem;

@@ -33,3 +33,52 @@ document.addEventListener('keydown', (event) => {
     setMenu(false);
   }
 });
+
+/* ==========================================================
+   Typing animation for the "Wedding Album" title
+   (starts when the trouw section scrolls into view)
+   ========================================================== */
+
+const trouwTitle = document.querySelector('.trouw__title');
+const trouwSection = document.querySelector('.trouw');
+
+if (trouwTitle && trouwSection) {
+  const fullText = trouwTitle.textContent.trim();
+  const typeSpeed = 100; // ms per character
+  let started = false;
+
+  // Reserve the final height so the layout doesn't jump while typing
+  trouwTitle.style.minHeight = trouwTitle.offsetHeight + 'px';
+  trouwTitle.textContent = '';
+  trouwTitle.classList.add('is-typing');
+
+  function startTyping() {
+    started = true;
+    window.removeEventListener('scroll', maybeStart);
+    clearInterval(viewWatcher);
+
+    let i = 0;
+    const tick = setInterval(() => {
+      i += 1;
+      trouwTitle.textContent = fullText.slice(0, i);
+      if (i >= fullText.length) {
+        clearInterval(tick);
+        // Let the cursor blink a moment longer, then remove it
+        setTimeout(() => trouwTitle.classList.remove('is-typing'), 1500);
+      }
+    }, typeSpeed);
+  }
+
+  // Start once ~40% of the section has scrolled into view
+  function maybeStart() {
+    if (started) return;
+    const rect = trouwSection.getBoundingClientRect();
+    const visible = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+    if (visible > rect.height * 0.4) {
+      startTyping();
+    }
+  }
+
+  window.addEventListener('scroll', maybeStart, { passive: true });
+  maybeStart(); // in case the section is already in view on load
+}
