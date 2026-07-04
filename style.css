@@ -244,6 +244,30 @@ body.nav-open {
 }
 
 /* ==========================================================
+   SCROLL ANIMATIONS
+   ========================================================== */
+/* Fade-in reveal: .reveal is added by style.js on page load (so the
+   content stays visible without JavaScript), .is-visible when the
+   section scrolls into view. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Header fades without moving: a transform on the header would break
+   the fullscreen mobile menu (position: fixed inside a transformed
+   element gets trapped in it) */
+.site-header.reveal {
+  transform: none;
+}
+
+/* ==========================================================
    CATEGORIES
    ========================================================== */
 /* Mobile: images stacked below each other */

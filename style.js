@@ -35,28 +35,47 @@ document.addEventListener('keydown', (event) => {
 });
 
 /* ==========================================================
-   Typing animation for the "Wedding Album" title
-   (starts when the trouw section scrolls into view)
+   Scroll-triggered animations
    ========================================================== */
 
+/* Runs `callback` once, as soon as `fraction` of `section` is visible.
+   Scroll listener + light timer, so it works in every browser/webview. */
+function onScrollIntoView(section, fraction, callback) {
+  let done = false;
+
+  function check() {
+    if (done) return;
+    const rect = section.getBoundingClientRect();
+    const visible = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+    // Compare against the section height OR the viewport, whichever is
+    // smaller — otherwise sections taller than the screen never trigger
+    if (visible > Math.min(rect.height, window.innerHeight) * fraction) {
+      done = true;
+      window.removeEventListener('scroll', check);
+      clearInterval(watcher);
+      callback();
+    }
+  }
+
+  window.addEventListener('scroll', check, { passive: true });
+  const watcher = setInterval(check, 250);
+  check(); // in case the section is already in view on load
+}
+
+/* ---------- Typing animation for the "Wedding Album" title ---------- */
 const trouwTitle = document.querySelector('.trouw__title');
 const trouwSection = document.querySelector('.trouw');
 
 if (trouwTitle && trouwSection) {
   const fullText = trouwTitle.textContent.trim();
   const typeSpeed = 100; // ms per character
-  let started = false;
 
   // Reserve the final height so the layout doesn't jump while typing
   trouwTitle.style.minHeight = trouwTitle.offsetHeight + 'px';
   trouwTitle.textContent = '';
   trouwTitle.classList.add('is-typing');
 
-  function startTyping() {
-    started = true;
-    window.removeEventListener('scroll', maybeStart);
-    clearInterval(viewWatcher);
-
+  onScrollIntoView(trouwSection, 0.4, () => {
     let i = 0;
     const tick = setInterval(() => {
       i += 1;
@@ -67,21 +86,17 @@ if (trouwTitle && trouwSection) {
         setTimeout(() => trouwTitle.classList.remove('is-typing'), 1500);
       }
     }, typeSpeed);
-  }
+  });
+}
 
-  // Start once ~40% of the section has scrolled into view
-  function maybeStart() {
-    if (started) return;
-    const rect = trouwSection.getBoundingClientRect();
-    const visible = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-    if (visible > rect.height * 0.4) {
-      startTyping();
-    }
-  }
+/* ---------- Fade-in for the categories (all three at once) ---------- */
+const categoriesGrid = document.querySelector('.img-categories');
 
-  window.addEventListener('scroll', maybeStart, { passive: true });
-  // Also check on a timer: catches browsers/webviews where scroll
-  // events are throttled, and the section being in view on page load
-  const viewWatcher = setInterval(maybeStart, 250);
-  maybeStart();
+if (categoriesGrid) {
+  // Hidden via JS (not CSS), so the images stay visible without JavaScript
+  categoriesGrid.classList.add('reveal');
+
+  onScrollIntoView(categoriesGrid, 0.8, () => {
+    categoriesGrid.classList.add('is-visible');
+  });
 }
