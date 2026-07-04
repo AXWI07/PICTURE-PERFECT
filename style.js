@@ -100,3 +100,14 @@ if (categoriesGrid) {
     categoriesGrid.classList.add('is-visible');
   });
 }
+
+/* ---------- Fade-in for the about section (image + text together) ---------- */
+const aboutContent = document.querySelector('.about__content');
+
+if (aboutContent) {
+  aboutContent.classList.add('reveal');
+
+  onScrollIntoView(aboutContent, 0.6, () => {
+    aboutContent.classList.add('is-visible');
+  });
+}
