@@ -289,6 +289,42 @@ body.nav-open {
 }
 
 /* ==========================================================
+   ABOUT (Over mij)
+   ========================================================== */
+/* Mobile: image on top, title + text below */
+.about {
+  padding: 4rem var(--side-padding);
+}
+
+.about__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  max-width: 70rem;
+  margin: 0 auto;
+}
+
+.about__image {
+  width: 100%;
+  object-fit: cover;
+}
+
+.about__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 6vw, 3rem);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.about__text {
+  margin-top: 1.5rem;
+  max-width: 55ch;
+  color: var(--color-text-muted);
+  line-height: 1.8;
+}
+
+/* ==========================================================
    FOOTER (full-width photo background, same size as before)
    ========================================================== */
 .footer {
@@ -613,5 +649,24 @@ body.nav-open {
   .footer__bottom-bar {
     flex-direction: row;
     justify-content: space-between;
+  }
+
+  /* About: picture left, title + text right */
+  .about {
+    padding: 6rem var(--side-padding);
+  }
+
+  .about__content {
+    flex-direction: row;
+    align-items: center;
+    gap: 5rem;
+  }
+
+  .about__image {
+    width: 45%;
+  }
+
+  .about__body {
+    flex: 1;
   }
 }
