@@ -96,7 +96,7 @@ if (categoriesGrid) {
   // Hidden via JS (not CSS), so the images stay visible without JavaScript
   categoriesGrid.classList.add('reveal');
 
-  onScrollIntoView(categoriesGrid, 0.8, () => {
+  onScrollIntoView(categoriesGrid, 0.7, () => {
     categoriesGrid.classList.add('is-visible');
   });
 }
