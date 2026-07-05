@@ -286,6 +286,10 @@ body.nav-open {
 .category {
   position: relative;
   display: block;
+  /* A little smaller than full width on phones */
+  width: 85%;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .category img {
@@ -431,7 +435,10 @@ body.nav-open {
 }
 
 .about__image {
-  width: 100%;
+  /* A little smaller than full width on phones */
+  width: 85%;
+  max-width: 400px;
+  margin: 0 auto;
   object-fit: cover;
 }
 
@@ -676,6 +683,16 @@ body.nav-open {
   .nav__link {
     font-size: 2.5rem;
   }
+
+  /* Tablet: keep the category images modest instead of full width */
+  .category {
+    max-width: 460px;
+  }
+
+  /* Same for the over-mij photo */
+  .about__image {
+    max-width: 460px;
+  }
 }
 
 /* ==========================================================
@@ -757,6 +774,13 @@ body.nav-open {
     grid-column-start: 7;
 }
 
+  /* Desktop grid: back to full cell width */
+  .category {
+    width: auto;
+    max-width: none;
+    margin: 0;
+  }
+
   /* Thin line between the images (vertical: they sit side by side here) */
   .category:not(:first-child)::before {
     top: 0;
@@ -794,6 +818,8 @@ body.nav-open {
 
   .about__image {
     width: 45%;
+    max-width: none;
+    margin: 0;
   }
 
   .about__body {
