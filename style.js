@@ -111,3 +111,20 @@ if (aboutContent) {
     aboutContent.classList.add('is-visible');
   });
 }
+
+/* ---------- Footer overlap: pin offset for the about section ----------
+   The about section is position: sticky so the footer scrolls over it.
+   If the section is taller than the screen, pin it higher (negative top)
+   so its bottom is still reachable before it stops scrolling. */
+const aboutSection = document.querySelector('.about');
+
+if (aboutSection) {
+  function setAboutPin() {
+    const overflow = aboutSection.offsetHeight - window.innerHeight;
+    aboutSection.style.top = (overflow > 0 ? -overflow : 0) + 'px';
+  }
+
+  window.addEventListener('resize', setAboutPin);
+  window.addEventListener('load', setAboutPin); // re-measure once images/fonts are in
+  setAboutPin();
+}

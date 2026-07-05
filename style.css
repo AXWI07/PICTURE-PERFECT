@@ -424,6 +424,13 @@ body.nav-open {
 /* Mobile: image on top, title + text below */
 .about {
   padding: 4rem var(--side-padding);
+
+  /* Overlap effect: the section pins here while the footer scrolls
+     over it. style.js adjusts `top` if the section is taller than
+     the screen, so the bottom always stays reachable. */
+  position: sticky;
+  top: 0;
+  z-index: 0;
 }
 
 .about__content {
@@ -468,6 +475,7 @@ body.nav-open {
   align-items: center;
   justify-content: center;
   min-height: 70vh;
+  z-index: 2; /* slides over the pinned about section */
 }
 
 .footer__image-wrapper {
