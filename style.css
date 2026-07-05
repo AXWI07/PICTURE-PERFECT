@@ -76,6 +76,11 @@ ul {
   z-index: 110; /* stays above the fullscreen menu */
 }
 
+.logo__img {
+  height: 44px;
+  width: auto;
+}
+
 /* ---------- Hamburger (visible on mobile & tablet) ---------- */
 .hamburger {
   border: none;
@@ -684,6 +689,10 @@ body.nav-open {
 
   .hamburger {
     display: none;
+  }
+
+  .logo__img {
+    height: 56px;
   }
 
   /* Nav becomes a normal horizontal bar */
