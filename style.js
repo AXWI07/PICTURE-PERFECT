@@ -128,3 +128,77 @@ if (aboutSection) {
   window.addEventListener('load', setAboutPin); // re-measure once images/fonts are in
   setAboutPin();
 }
+
+/* ==========================================================
+   Photo albums — data lives in albums.js
+   1. Category pages show album covers (like the homepage categories)
+   2. album.html shows one album as a masonry gallery (efferd style)
+   ========================================================== */
+
+/* ---------- 1. Album covers on the category pages ---------- */
+const albumGridEl = document.querySelector('[data-category]');
+
+if (albumGridEl && typeof ALBUMS !== 'undefined') {
+  const category = albumGridEl.dataset.category;
+  const albums = ALBUMS[category] || [];
+
+  albums.forEach((album) => {
+    const link = document.createElement('a');
+    link.className = 'category';
+    link.href = 'album.html?album=' + category + '/' + album.id;
+
+    const img = document.createElement('img');
+    img.src = album.photos[0] + '=w800'; // first photo is the cover
+    img.alt = album.title;
+
+    const label = document.createElement('span');
+    label.className = 'category__label';
+    label.textContent = album.title;
+
+    link.appendChild(img);
+    link.appendChild(label);
+    albumGridEl.appendChild(link);
+  });
+}
+
+/* ---------- 2. Photo gallery on album.html ---------- */
+const galleryEl = document.querySelector('[data-album-gallery]');
+
+if (galleryEl && typeof ALBUMS !== 'undefined') {
+  const param = new URLSearchParams(window.location.search).get('album') || '';
+  const parts = param.split('/');
+  const category = parts[0];
+  const album = (ALBUMS[category] || []).find((a) => a.id === parts[1]);
+  const titleEl = document.querySelector('.category-page__title');
+  const backLink = document.querySelector('.album-back');
+
+  if (album) {
+    document.title = album.title + ' — Picture Perfect Fotografie';
+    if (titleEl) titleEl.textContent = album.title;
+    if (backLink) backLink.href = category + '.html'; // back to the category page
+
+    album.photos.forEach((url, index) => {
+      const img = document.createElement('img');
+      img.src = url + '=w800'; // Google Photos CDN: request 800px-wide version
+      // First photos load right away (they're above the fold), rest lazily
+      img.loading = index < 8 ? 'eager' : 'lazy';
+      img.decoding = 'async';
+      img.alt = album.title + ' — foto ' + (index + 1);
+      img.className = 'gallery__img';
+
+      // Fade each photo in once it has loaded
+      const show = () => img.classList.add('is-loaded');
+      if (img.complete) {
+        show();
+      } else {
+        img.addEventListener('load', show);
+      }
+      // Drop photos that fail to load (e.g. album no longer shared)
+      img.addEventListener('error', () => img.remove());
+
+      galleryEl.appendChild(img);
+    });
+  } else if (titleEl) {
+    titleEl.textContent = 'Album niet gevonden';
+  }
+}

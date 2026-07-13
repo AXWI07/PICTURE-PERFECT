@@ -685,6 +685,69 @@ body.nav-open {
 }
 
 /* ==========================================================
+   ALBUM COVERS on the category pages
+   (reuses the .category look from the homepage)
+   ========================================================== */
+.album-grid {
+  padding: 2.5rem 0 1rem;
+}
+
+/* Covers are photos, so crop them to a consistent shape */
+.album-grid .category img {
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.album-grid .category__label {
+  text-transform: uppercase;
+}
+
+/* Back link on the album page */
+.album-back {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  transition: color 0.2s ease;
+}
+
+.album-back:hover {
+  color: var(--color-text);
+}
+
+/* ==========================================================
+   ALBUM GALLERY (masonry, like efferd image-gallery-1)
+   Mobile: 1 column — tablet: 2 — desktop: 4
+   ========================================================== */
+.gallery {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 2.5rem 0 1rem;
+  columns: 1;
+  column-gap: 1rem;
+}
+
+.gallery__img {
+  display: block;
+  width: 100%;
+  margin-bottom: 1rem;
+  border-radius: 0.75rem;
+  break-inside: avoid;
+
+  /* fades in when loaded (class set by style.js) */
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.gallery__img.is-loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================
    TABLET (≥ 600px) — still hamburger + fullscreen menu
    ========================================================== */
 @media (min-width: 600px) {
@@ -704,6 +767,11 @@ body.nav-open {
   /* Same for the over-mij photo */
   .about__image {
     max-width: 460px;
+  }
+
+  /* Gallery: two columns on tablet */
+  .gallery {
+    columns: 2;
   }
 }
 
@@ -820,6 +888,22 @@ body.nav-open {
   /* Desktop keeps the shorter footer */
   .footer {
     min-height: 70vh;
+  }
+
+  /* Album covers: keep page padding modest (the homepage
+     .img-categories rule above sets 8rem, too much here) */
+  .album-grid {
+    padding: 3rem 0 1rem;
+  }
+
+  /* Gallery: four columns on desktop */
+  .gallery {
+    columns: 4;
+    column-gap: 1.5rem;
+  }
+
+  .gallery__img {
+    margin-bottom: 1.5rem;
   }
 
   /* About: picture left, title + text right */
